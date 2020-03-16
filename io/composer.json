@@ -1,0 +1,20 @@
+{
+    "name": "bifei/io",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "e0e3284558",
+            "email": "bifei0827@vip.qq.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Bifei\\Io\\": "./src/"
+        },
+        "files":[
+            "src/Helper.php"
+        ]
+    },
+    "require": {}
+}
