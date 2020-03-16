@@ -22,9 +22,9 @@ abstract class Server
 
     protected $inotify = null;
 
-    protected $port = 9000;
+    protected $port = null;
 
-    protected $host = '0.0.0.0';
+    protected $host = null;
 
     protected $watchFile = false;
     // 记录系统pid的信息
@@ -96,6 +96,7 @@ abstract class Server
 
     public function start()
     {
+        $this->initSetting();
         // 1. 创建 swoole server
         $this->createServer();
         // 2. 设置配置信息
@@ -106,6 +107,15 @@ abstract class Server
         $this->setSwooleEvent();
         // 5. 启动
         $this->swooleServer->start();
+    }
+
+    public function initSetting()
+    {
+        $config = app('config');
+        $this->port = $config->get('server.http.port');
+        $this->host = $config->get('server.http.host');
+        var_dump('初始化端口', $this->host, $this->port);
+
     }
 
     /**

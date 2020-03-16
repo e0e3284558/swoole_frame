@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="074f59fe-de93-483e-8c73-909c8ff75211" name="默认更改列表" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frame_swoole/frame/app/Http/Controller/IndexController.php" beforeDir="false" afterPath="$PROJECT_DIR$/frame_swoole/frame/app/Http/Controller/IndexController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frame_swoole/swostar/src/Routes/Route.php" beforeDir="false" afterPath="$PROJECT_DIR$/frame_swoole/swostar/src/Routes/Route.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frame_swoole/frame/config/server.php" beforeDir="false" afterPath="$PROJECT_DIR$/frame_swoole/frame/config/server.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frame_swoole/swostar/src/Foundation/Application.php" beforeDir="false" afterPath="$PROJECT_DIR$/frame_swoole/swostar/src/Foundation/Application.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frame_swoole/swostar/src/Server/Http/HttpServer.php" beforeDir="false" afterPath="$PROJECT_DIR$/frame_swoole/swostar/src/Server/Http/HttpServer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frame_swoole/swostar/src/Server/Server.php" beforeDir="false" afterPath="$PROJECT_DIR$/frame_swoole/swostar/src/Server/Server.php" afterDir="false" />
     </list>
@@ -131,7 +131,7 @@
       <workItem from="1584079699277" duration="13603000" />
       <workItem from="1584198900613" duration="7455000" />
       <workItem from="1584279872644" duration="3152000" />
-      <workItem from="1584344009554" duration="3245000" />
+      <workItem from="1584344009554" duration="8020000" />
     </task>
     <servers />
   </component>
@@ -169,12 +169,12 @@
     </state>
     <state x="100" y="123" width="1240" height="638" key="DirDiffDialog/0.23.1440.837/-273.-1057.1920.1057@0.23.1440.837" timestamp="1583913611002" />
     <state x="100" y="123" width="1240" height="639" key="DirDiffDialog/0.23.1440.839/-1920.23.1920.1057@0.23.1440.839" timestamp="1578738332120" />
-    <state x="538" y="356" key="NewPhpFileDialog" timestamp="1584348634199">
+    <state x="538" y="356" key="NewPhpFileDialog" timestamp="1584369654413">
       <screen x="0" y="23" width="1440" height="837" />
     </state>
     <state x="538" y="358" key="NewPhpFileDialog/0.0.1440.900/-1920.0.1920.1080@0.0.1440.900" timestamp="1581351171195" />
-    <state x="538" y="356" key="NewPhpFileDialog/0.23.1440.837/-1920.23.1920.1057@0.23.1440.837" timestamp="1584278699312" />
-    <state x="538" y="356" key="NewPhpFileDialog/0.23.1440.837/-273.-1057.1920.1057@0.23.1440.837" timestamp="1584348634199" />
+    <state x="538" y="356" key="NewPhpFileDialog/0.23.1440.837/-1920.23.1920.1057@0.23.1440.837" timestamp="1584369654413" />
+    <state x="538" y="356" key="NewPhpFileDialog/0.23.1440.837/-273.-1057.1920.1057@0.23.1440.837" timestamp="1584349124401" />
     <state x="538" y="373" key="NewPhpFileDialog/0.23.1440.839/-1920.23.1920.1057@0.23.1440.839" timestamp="1579274952181" />
     <state x="221" y="80" key="SettingsEditor" timestamp="1583820753795">
       <screen x="0" y="23" width="1440" height="837" />
@@ -184,10 +184,10 @@
       <screen x="0" y="23" width="1440" height="839" />
     </state>
     <state x="560" y="348" key="WebDeployment.AddServerDialog.v.1/0.23.1440.839/-1920.23.1920.1057@0.23.1440.839" timestamp="1578737825937" />
-    <state x="385" y="203" width="669" height="476" key="find.popup" timestamp="1584261610435">
+    <state x="385" y="203" width="669" height="476" key="find.popup" timestamp="1584368936655">
       <screen x="0" y="23" width="1440" height="837" />
     </state>
-    <state x="385" y="203" width="669" height="476" key="find.popup/0.23.1440.837/-1920.23.1920.1057@0.23.1440.837" timestamp="1584261610435" />
+    <state x="385" y="203" width="669" height="476" key="find.popup/0.23.1440.837/-1920.23.1920.1057@0.23.1440.837" timestamp="1584368936655" />
     <state x="627" y="180" key="ftp.server.browser" timestamp="1578738020190">
       <screen x="0" y="23" width="1440" height="839" />
     </state>

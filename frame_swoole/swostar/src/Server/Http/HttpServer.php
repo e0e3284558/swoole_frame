@@ -17,6 +17,7 @@ class HttpServer extends Server
 {
     public function createServer()
     {
+        var_dump($this->port, $this->host,'----http-----');
         $this->swooleServer = new SwooleServer($this->host, $this->port);
         Input::info('http server访问:http://106.13.78.8:' . $this->port);
     }

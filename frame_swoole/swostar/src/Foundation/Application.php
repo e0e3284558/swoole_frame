@@ -2,6 +2,7 @@
 
 namespace SwoStar\Foundation;
 
+use SwoStar\Config\Config;
 use SwoStar\Container\Container;
 use SwoStar\Index;
 use SwoStar\Message\Http\Request;
@@ -43,7 +44,8 @@ class Application extends Container
         $binds = [
             // 标识=>对象
             'index' => (new Index()),
-            'httpRequest' => (new Request())
+            'httpRequest' => (new Request()),
+            'config' => (new Config())
         ];
         foreach ($binds as $key => $value) {
             $this->bind($key, $value);
