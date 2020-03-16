@@ -2,6 +2,8 @@
 
 namespace SwoStar\Routes;
 
+use SwoStar\Console\Input;
+
 class Route
 {
     protected static $instance = null;
@@ -12,6 +14,9 @@ class Route
 
     // 记录路由的文件地址
     protected $routeMap = [];
+
+    // 记录请求方式
+    protected $method = null;
 
     protected function __construct()
     {
@@ -61,9 +66,44 @@ class Route
     /**
      * 根据请求校验路由，并执行方法
      */
-    public function match()
+    public function match($path)
     {
+        // 1. 获取请求的uriPath
+        // 2. 根据类型获取路由
+        // 3. 判断请求的uri匹配相应路由，返回action
+        // 4. 判断控制器还是闭包，分别执行
+        $action = null;
+        dd($this->method);
+        dd($this->routes);
+        dd($this->routes[$this->method]);
+        foreach ($this->routes[$this->method] as $uri => $value) {
+            $uri = ($uri && substr($uri, 0, 1) != '/') ? '/' . $uri : $uri;
+            dd($uri, "这是处理的url");
+            dd($path, "这是访问的路径");
+            if ($path === $uri) {
+                $action = $value;
+                break;
+            }
+        }
+        if (!empty($action)) {
+            return $this->runAction($action);
+        }
+        Input::info('没有找到方法');
+        return 404;
+    }
 
+    private function runAction($action)
+    {
+        if ($action instanceof \Closure) {
+            return $action();
+        } else {
+            // 控制器解析
+            $namespace = "\App\Http\Controller\\";
+            $arr = explode('@', $action);
+            $controller = $namespace . $arr[0];
+            $class = new $controller();
+            return $class->{$arr[1]}();
+        }
     }
 
     public function registeRoute()
@@ -71,6 +111,12 @@ class Route
         foreach ($this->routeMap as $key => $path) {
             require_once $path;
         }
+        return $this;
+    }
+
+    public function setMethod($method)
+    {
+        $this->method = $method;
         return $this;
     }
 

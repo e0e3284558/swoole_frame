@@ -27,6 +27,8 @@ abstract class Server
     protected $host = '0.0.0.0';
 
     protected $watchFile = false;
+    // 记录系统pid的信息
+    protected $pidFile = '/runtime/swostar.pid';
 
     protected $config = [
         'task_worker_num' => 0,
@@ -148,6 +150,9 @@ abstract class Server
         $this->pidMap['masterPid'] = $server->master_pid;
         $this->pidMap['managerPid'] = $server->manager_pid;
 
+        // 保存PID到文件
+        $pidStr = sprintf('%s%s', $server->master_pid, $server->manager_pid);
+        file_put_contents(app()->getBasePath() . $this->pidFile, $pidStr);
 //        var_dump($this->app->getBasePath());
         if ($this->watchFile) {
             $this->inotify = new Inotify($this->app->getBasePath(), $this->watchEvent());
@@ -225,6 +230,6 @@ abstract class Server
 
     public function watchFile($watchFile)
     {
-        $this->watchFile=$watchFile;
+        $this->watchFile = $watchFile;
     }
 }

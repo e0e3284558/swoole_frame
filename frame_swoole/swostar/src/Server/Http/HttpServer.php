@@ -2,6 +2,7 @@
 
 namespace SwoStar\Server\Http;
 
+use SwoStar\Console\Input;
 use SwoStar\Message\Http\Request as HttpRequest;
 use SwoStar\Server\Server;
 
@@ -17,6 +18,7 @@ class HttpServer extends Server
     public function createServer()
     {
         $this->swooleServer = new SwooleServer($this->host, $this->port);
+        Input::info('http server访问:http://106.13.78.8:' . $this->port);
     }
 
     protected function initEvent()
@@ -34,11 +36,20 @@ class HttpServer extends Server
         if ($uri == '/favicon.ico') {
             $response->status(404);
             $response->end('');
+            return null;
         }
+
+        // http://127.0.0.1:9000/index
+
         $httpRequest = HttpRequest::init($request);
-        dd($httpRequest->getMethod(),'Method');
-        dd($httpRequest->getUriPath(),'UriPath');
-        $response->end("<h1>Hello swostar</h1>");
+
+        dd($httpRequest->getMethod(), 'Method');
+        dd($httpRequest->getUriPath(), 'UriPath');
+
+        // 执行控制器/路由闭包的方法
+        $return = app('route')->setMethod($httpRequest->getMethod())->match($httpRequest->getUriPath());
+
+        $response->end($return);
     }
 }
 
