@@ -2,6 +2,8 @@
 
 namespace SwoStar\Server;
 
+use SwoStar\Console\Input;
+use SwoStar\RPC\Rpc;
 use SwoStar\Supper\Inotify;
 use Swoole\Server as SwooleServer;
 use SwoStar\Foundation\Application;
@@ -78,6 +80,15 @@ abstract class Server
     public function __construct(Application $app)
     {
         $this->app = $app;
+
+        $this->initSetting();
+        // 1. 创建 swoole server
+        $this->createServer();
+
+        // 3. 设置需要注册的回调函数
+        $this->initEvent();
+        // 4. 设置swoole的回调函数
+        $this->setSwooleEvent();
     }
 
     /**
@@ -96,15 +107,14 @@ abstract class Server
 
     public function start()
     {
-        $this->initSetting();
-        // 1. 创建 swoole server
-        $this->createServer();
+        $config = app('config');
         // 2. 设置配置信息
         $this->swooleServer->set($this->config);
-        // 3. 设置需要注册的回调函数
-        $this->initEvent();
-        // 4. 设置swoole的回调函数
-        $this->setSwooleEvent();
+
+        if (app('config')->get('server.http.tcpable')) {
+            new Rpc($this->swooleServer, $config->get('server.http.rpc'));
+        }
+
         // 5. 启动
         $this->swooleServer->start();
     }
