@@ -31,7 +31,7 @@ class HttpServer extends Server
 
     // onRequest
 
-    public function onRequest(SwooleRequest $request, SwooleResponse $response)
+    public function onRequest(SwooleRequest $request , SwooleResponse $response)
     {
         $uri = $request->server['request_uri'];
         if ($uri == '/favicon.ico') {

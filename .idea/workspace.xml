@@ -3,9 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="074f59fe-de93-483e-8c73-909c8ff75211" name="默认更改列表" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/19/swoole_http_server.php" beforeDir="false" afterPath="$PROJECT_DIR$/19/swoole_http_server.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frame_swoole/frame/config/server.php" beforeDir="false" afterPath="$PROJECT_DIR$/frame_swoole/frame/config/server.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frame_swoole/swostar/src/Server/Server.php" beforeDir="false" afterPath="$PROJECT_DIR$/frame_swoole/swostar/src/Server/Server.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frame_swoole/frame/route/web_socket.php" beforeDir="false" afterPath="$PROJECT_DIR$/frame_swoole/frame/route/web_socket.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frame_swoole/swostar/src/Routes/Route.php" beforeDir="false" afterPath="$PROJECT_DIR$/frame_swoole/swostar/src/Routes/Route.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frame_swoole/swostar/src/Server/Http/HttpServer.php" beforeDir="false" afterPath="$PROJECT_DIR$/frame_swoole/swostar/src/Server/Http/HttpServer.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,17 +64,18 @@
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/20/webSocket" />
+      <recent name="$PROJECT_DIR$/14/swoole_task" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/file" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/19" />
       <recent name="$PROJECT_DIR$/frame_swoole/swostar/src" />
       <recent name="$PROJECT_DIR$/frame_swoole/swostar" />
       <recent name="$PROJECT_DIR$/frame_swoole/swostar/src/Server" />
       <recent name="$PROJECT_DIR$/frame_swoole/frame/app/WebSocket" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/14/swoole_task" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/file" />
     </key>
   </component>
   <component name="ServiceViewManager">
@@ -131,6 +132,9 @@
       <workItem from="1584279872644" duration="3152000" />
       <workItem from="1584344009554" duration="8191000" />
       <workItem from="1584410950049" duration="3988000" />
+      <workItem from="1584423712160" duration="21000" />
+      <workItem from="1584425273802" duration="3519000" />
+      <workItem from="1584435893530" duration="8204000" />
     </task>
     <servers />
   </component>
@@ -150,29 +154,31 @@
       <screen x="0" y="23" width="1440" height="837" />
     </state>
     <state x="184" y="103" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.837/-1920.23.1920.1057@0.23.1440.837" timestamp="1582724198897" />
-    <state x="518" y="-719" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1584327572046">
+    <state x="518" y="-719" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1584501261979">
       <screen x="-273" y="-1057" width="1920" height="1057" />
     </state>
-    <state x="518" y="-719" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1440.837/-273.-1057.1920.1057@-273.-1057.1920.1057" timestamp="1584327572046" />
+    <state x="518" y="-719" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1440.837/-273.-1057.1920.1057@-273.-1057.1920.1057" timestamp="1584501261979" />
     <state x="392" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1582259306610">
       <screen x="0" y="23" width="1440" height="837" />
     </state>
     <state x="392" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1440.837/-1920.23.1920.1057@0.23.1440.837" timestamp="1582259306610" />
-    <state x="100" y="123" width="1240" height="637" key="DiffContextDialog" timestamp="1584320917811">
-      <screen x="0" y="23" width="1440" height="837" />
+    <state x="-1787" y="149" width="1654" height="805" key="DiffContextDialog" timestamp="1584450170297">
+      <screen x="-1920" y="23" width="1920" height="1057" />
     </state>
-    <state x="100" y="123" width="1240" height="637" key="DiffContextDialog/0.23.1440.837/-1920.23.1920.1057@0.23.1440.837" timestamp="1584280219209" />
+    <state x="-1787" y="149" width="1654" height="805" key="DiffContextDialog/0.23.1440.837/-1920.23.1920.1057@0.23.1440.837" timestamp="1584450170297" />
+    <state x="-140" y="-931" width="1654" height="805" key="DiffContextDialog/0.23.1440.837/-273.-1057.1920.1057@-273.-1057.1920.1057" timestamp="1584437476590" />
     <state x="100" y="123" width="1240" height="637" key="DiffContextDialog/0.23.1440.837/-273.-1057.1920.1057@0.23.1440.837" timestamp="1584320917811" />
     <state x="100" y="123" width="1240" height="638" key="DirDiffDialog" timestamp="1583913611002">
       <screen x="0" y="23" width="1440" height="837" />
     </state>
     <state x="100" y="123" width="1240" height="638" key="DirDiffDialog/0.23.1440.837/-273.-1057.1920.1057@0.23.1440.837" timestamp="1583913611002" />
     <state x="100" y="123" width="1240" height="639" key="DirDiffDialog/0.23.1440.839/-1920.23.1920.1057@0.23.1440.839" timestamp="1578738332120" />
-    <state x="538" y="356" key="NewPhpFileDialog" timestamp="1584414392104">
-      <screen x="0" y="23" width="1440" height="837" />
+    <state x="444" y="-636" key="NewPhpFileDialog" timestamp="1584500225885">
+      <screen x="-273" y="-1057" width="1920" height="1057" />
     </state>
     <state x="538" y="358" key="NewPhpFileDialog/0.0.1440.900/-1920.0.1920.1080@0.0.1440.900" timestamp="1581351171195" />
-    <state x="538" y="356" key="NewPhpFileDialog/0.23.1440.837/-1920.23.1920.1057@0.23.1440.837" timestamp="1584369654413" />
+    <state x="538" y="356" key="NewPhpFileDialog/0.23.1440.837/-1920.23.1920.1057@0.23.1440.837" timestamp="1584452059507" />
+    <state x="444" y="-636" key="NewPhpFileDialog/0.23.1440.837/-273.-1057.1920.1057@-273.-1057.1920.1057" timestamp="1584500225885" />
     <state x="538" y="356" key="NewPhpFileDialog/0.23.1440.837/-273.-1057.1920.1057@0.23.1440.837" timestamp="1584414392104" />
     <state x="538" y="373" key="NewPhpFileDialog/0.23.1440.839/-1920.23.1920.1057@0.23.1440.839" timestamp="1579274952181" />
     <state x="221" y="80" key="SettingsEditor" timestamp="1583820753795">
@@ -191,10 +197,11 @@
       <screen x="0" y="23" width="1440" height="839" />
     </state>
     <state x="627" y="180" key="ftp.server.browser/0.23.1440.839/-1920.23.1920.1057@0.23.1440.839" timestamp="1578738020190" />
-    <state x="385" y="184" width="670" height="676" key="search.everywhere.popup" timestamp="1584278791886">
-      <screen x="0" y="23" width="1440" height="837" />
+    <state x="240" y="-854" width="894" height="854" key="search.everywhere.popup" timestamp="1584436389358">
+      <screen x="-273" y="-1057" width="1920" height="1057" />
     </state>
     <state x="385" y="184" width="670" height="676" key="search.everywhere.popup/0.23.1440.837/-1920.23.1920.1057@0.23.1440.837" timestamp="1584278791886" />
+    <state x="240" y="-854" width="894" height="854" key="search.everywhere.popup/0.23.1440.837/-273.-1057.1920.1057@-273.-1057.1920.1057" timestamp="1584436389358" />
     <state x="385" y="184" width="670" height="676" key="search.everywhere.popup/0.23.1440.837/-273.-1057.1920.1057@0.23.1440.837" timestamp="1583998614437" />
   </component>
   <component name="XDebuggerManager">

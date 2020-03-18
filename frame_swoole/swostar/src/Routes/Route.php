@@ -48,6 +48,15 @@ class Route
         return $this->addRoute(self::$verbs, $uri, $action);
     }
 
+    public function wsController($uri,$controller)
+    {
+        $action=[
+            'open',
+            'message',
+            'close'
+        ];
+    }
+
     /**
      * 注册路由
      * @param $methods
