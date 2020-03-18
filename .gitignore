@@ -1,1 +1,4 @@
 # Created by .ignore support plugin (hsz.mobi)
+./dump.rdb
+.idea/
+.DS_Store
