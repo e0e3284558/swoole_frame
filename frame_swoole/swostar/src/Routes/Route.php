@@ -18,10 +18,13 @@ class Route
     // 记录请求方式
     protected $method = null;
 
+    protected $flag = null;
+
     protected function __construct()
     {
         $this->routeMap = [
-            'Http' => app()->getBasePath() . '/route/http.php'
+            'Http' => app()->getBasePath() . '/route/http.php',
+            'WebSocket' => app()->getBasePath() . '/route/web_socket.php'
         ];
     }
 
@@ -48,18 +51,21 @@ class Route
         return $this->addRoute(self::$verbs, $uri, $action);
     }
 
-    public function wsController($uri,$controller)
+    public function wsController($uri, $controller)
     {
-        $action=[
+        $actions = [
             'open',
             'message',
             'close'
         ];
+        foreach ($actions as $key => $action) {
+            $this->addRoute([$action], $uri, $controller . '@' . $action);
+        }
     }
 
     /**
      * 注册路由
-     * @param $methods
+     * @param array $methods
      * @param $uri
      * @param $action
      * @return $this
@@ -67,7 +73,7 @@ class Route
     public function addRoute($methods, $uri, $action)
     {
         foreach ($methods as $method) {
-            $this->routes[$method][$uri] = $action;
+            $this->routes[$this->flag][$method][$uri] = $action;
         }
         return $this;
     }
@@ -75,7 +81,7 @@ class Route
     /**
      * 根据请求校验路由，并执行方法
      */
-    public function match($path)
+    public function match($path, $param = [])
     {
         // 1. 获取请求的uriPath
         // 2. 根据类型获取路由
@@ -85,7 +91,7 @@ class Route
         dd($this->method);
         dd($this->routes);
         dd($this->routes[$this->method]);
-        foreach ($this->routes[$this->method] as $uri => $value) {
+        foreach ($this->routes[$this->flag][$this->method] as $uri => $value) {
             $uri = ($uri && substr($uri, 0, 1) != '/') ? '/' . $uri : $uri;
             dd($uri, "这是处理的url");
             dd($path, "这是访问的路径");
@@ -95,29 +101,32 @@ class Route
             }
         }
         if (!empty($action)) {
-            return $this->runAction($action);
+            return $this->runAction($action,$param);
         }
         Input::info('没有找到方法');
         return 404;
     }
 
-    private function runAction($action)
+    private function runAction($action, $param = null)
     {
         if ($action instanceof \Closure) {
-            return $action();
+            return $action(...$param);
         } else {
             // 控制器解析
-            $namespace = "\App\Http\Controller\\";
+            $namespace = "\App\\" . $this->flag . "\\Controller\\";
             $arr = explode('@', $action);
             $controller = $namespace . $arr[0];
             $class = new $controller();
-            return $class->{$arr[1]}();
+            return $class->{$arr[1]}(...$param);
         }
     }
+
+
 
     public function registeRoute()
     {
         foreach ($this->routeMap as $key => $path) {
+            $this->flag = $key;
             require_once $path;
         }
         return $this;
@@ -126,6 +135,12 @@ class Route
     public function setMethod($method)
     {
         $this->method = $method;
+        return $this;
+    }
+
+    public function setFlag($flag)
+    {
+        $this->flag=$flag;
         return $this;
     }
 

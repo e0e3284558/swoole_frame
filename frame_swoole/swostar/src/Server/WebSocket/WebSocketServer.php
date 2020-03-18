@@ -19,26 +19,36 @@ class WebSocketServer extends HttpServer
     {
         $this->setEvent('sub', [
             'request' => 'onRequest',
-            'open'=>'onOpen',
-            'message'=>'onMessage',
-            'close'=>'onClose'
+            'open' => 'onOpen',
+            'message' => 'onMessage',
+            'close' => 'onClose'
         ]);
     }
 
-
     public function onOpen(SwooleServer $server, $request)
     {
-        echo "服务端：和{$request->fd}握手成功";
+        // 需要获取用户访问的地址
+        Connections::init($request->fd, $request->server['path_info']);
+        echo "服务端：和--{$request->fd}--握手成功 \n";
+        // 获取访问的地址 
+//        dd($request->server['path_info'], '$request->server["path_info"]');
+
+        $return = app('route')->setFlag('WebSocket')->setMethod('open')->match($request->server['path_info'], [$server, $request]);
     }
 
     public function onMessage(SwooleServer $server, $frame)
     {
+        $path = (Connections::get($frame->fd))['path'];
         echo "接收到:{$frame->fd}:{$frame->data},操作码:{$frame->opcode},完成:{$frame->finish}\n";
-        $server->push($frame->fd, '这是服务端');
+        $return = app('route')->setFlag('WebSocket')->setMethod('message')->match($path, [$server, $frame]);
     }
 
     public function onClose($ser, $fd)
     {
-        echo "客户端 {$fd} 关闭";
+        echo "客户端 {$fd} 关闭 \n";
+
+        $path = (Connections::get($fd))['path'];
+        $return = app('route')->setFlag('WebSocket')->setMethod('close')->match($path, [$ser, $fd]);
+        Connections::del($fd);
     }
 }

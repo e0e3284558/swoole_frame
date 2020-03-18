@@ -19,8 +19,8 @@
      */
         //创建一个webSocket 实例
         // var webSocket  = new  WebSocket("ws://127.0.0.1:9000");
-        var webSocket  = new  WebSocket("ws://106.13.78.8:9501");
-    // var webSocket  = new  WebSocket("ws://106.13.78.8:9000/index");
+        // var webSocket  = new  WebSocket("ws://106.13.78.8:9501");
+    var webSocket  = new  WebSocket("ws://106.13.78.8:9000/index");
 
     webSocket.onerror = function (event){
         onError(event);
@@ -54,7 +54,7 @@
 
     function onMessage(event){
         console.log("onMessage");
-        document.getElementById("msg").innerHTML += "<p>response:"+event.data+"</p>"
+        document.getElementById("msg").innerHTML += "<p>response:>"+event.data+"</p>"
     };
 
     function onClose(event){
@@ -75,7 +75,7 @@
         console.log("send:"+sockState());
         console.log("msg="+msg);
         webSocket.send("msg="+msg);
-        document.getElementById("msg").innerHTML += "<p>request"+msg+"</p>"
+        document.getElementById("msg").innerHTML += "<p>request:>"+msg+"</p>"
     };
 
     function close(event){

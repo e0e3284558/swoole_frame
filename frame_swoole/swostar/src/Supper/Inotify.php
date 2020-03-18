@@ -1,5 +1,5 @@
 <?php
-namespace Bifei\Supper;
+namespace SwoStar\Supper;
 
 class Inotify
 {

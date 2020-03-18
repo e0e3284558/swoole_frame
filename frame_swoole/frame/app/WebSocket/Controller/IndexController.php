@@ -6,14 +6,12 @@ class IndexController
 {
     public function open($server, $request)
     {
-        dd('IndexController open');
+        dd('indexController open');
     }
-
-    public function message($server, $request)
+    public function message($server, $frame)
     {
-
+        $server->push($frame->fd, "\n this is server \n");
     }
-
     public function close($ser, $fd)
     {
 

@@ -48,7 +48,7 @@ class HttpServer extends Server
         dd($httpRequest->getUriPath(), 'UriPath');
 
         // 执行控制器/路由闭包的方法
-        $return = app('route')->setMethod($httpRequest->getMethod())->match($httpRequest->getUriPath());
+        $return = app('route')->setFlag('Http')->setMethod($httpRequest->getMethod())->match($httpRequest->getUriPath());
 
         $response->end($return);
     }

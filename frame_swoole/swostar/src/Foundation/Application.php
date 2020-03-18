@@ -8,6 +8,7 @@ use SwoStar\Index;
 use SwoStar\Message\Http\Request;
 use SwoStar\Routes\Route;
 use SwoStar\Server\Http\HttpServer;
+use SwoStar\Server\WebSocket\WebSocketServer;
 
 class Application extends Container
 {
@@ -31,11 +32,22 @@ class Application extends Container
         dd(self::SWOSTAR_WELCOME, '启动项目');
     }
 
-    public function run()
+    public function run($argv)
     {
-        $httpServer = new HttpServer($this);
-//        $httpServer->watchFile(true);
-        $httpServer->start();
+        switch ($argv[1]) {
+            case 'http:start':
+                $server = new HttpServer($this);
+                break;
+            case 'ws:start':
+                $server = new WebSocketServer($this);
+                break;
+            default:
+                dd('请输入正确的参数  http:start or ws:start');
+                return null;
+        }
+        // php bin/swostar ws:start
+        $server->watchFile(true);
+        $server->start();
     }
 
     public function registerBaseBindings()
@@ -55,6 +67,7 @@ class Application extends Container
     public function init()
     {
         $this->bind('route', Route::getInstance()->registeRoute());
+//        dd(app('route')->getRoutes());
     }
 
     public function setBasePath($path)
