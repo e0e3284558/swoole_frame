@@ -13,7 +13,7 @@
             "SwoStar\\": "./src/"
         },
         "files": [
-            "src/Supper/Helper.php",
+            "src/Supper/Helper.php"
         ]
     }
 }

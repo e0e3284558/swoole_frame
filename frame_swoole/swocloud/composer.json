@@ -1,0 +1,26 @@
+{
+    "name": "bifei/swocloud",
+    "authors": [
+        {
+            "name": "e0e3284558",
+            "email": "bifei0827@vip.qq.com"
+        }
+    ],
+    "require": {
+        "bifei/swostar": "dev-master"
+    },
+    "autoload":{
+        "psr-4":{
+            "SwoCloud\\":"./src/"
+        },
+        "files":[
+            "src/Supper/Helper.php"
+        ]
+    },
+    "repositories": {
+        "bifei": {
+            "type": "path",
+            "url": "../swostar"
+        }
+    }
+}
