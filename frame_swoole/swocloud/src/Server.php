@@ -17,7 +17,7 @@ abstract class Server
      */
     protected $swooleServer;
 
-    protected $port = 9000;
+    protected $port = 9500;
 
     protected $host = '0.0.0.0';
 

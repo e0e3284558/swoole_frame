@@ -170,13 +170,20 @@ abstract class Server
         $this->pidMap['managerPid'] = $server->manager_pid;
 
         // 保存PID到文件
-        $pidStr = sprintf('%s%s', $server->master_pid, $server->manager_pid);
-        file_put_contents(app()->getBasePath() . $this->pidFile, $pidStr);
+//        $pidStr = sprintf('%s%s', $server->master_pid, $server->manager_pid);
+//        file_put_contents(app()->getBasePath() . $this->pidFile, $pidStr);
 //        var_dump($this->app->getBasePath());
         if ($this->watchFile) {
             $this->inotify = new Inotify($this->app->getBasePath(), $this->watchEvent());
             $this->inotify->start();
         }
+
+         go(function(){
+             $cli = new \Swoole\Coroutine\Http\Client('106.13.78.8', 9500);
+             $ret = $cli->upgrade("/");
+             $cli->push('1');
+             $cli->close();
+         });
     }
 
     public function onManagerStart(SwooleServer $server)

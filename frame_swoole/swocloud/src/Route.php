@@ -6,6 +6,7 @@ namespace SwoCloud;
 use Swoole\Http\Server as SwooleServer;
 use Swoole\Http\Request as SwooleRequest;
 use Swoole\Http\Response as SwooleResponse;
+use Swoole\WebSocket\Server as SwooleWebSocketServer;
 use SwoStar\Console\Input;
 
 /**
@@ -28,24 +29,24 @@ class Route extends Server
 
     public function onMessage(SwooleServer $server, $frame)
     {
-
-    }
-
-    public function onRequest(SwooleRequest $request, SwooleResponse $response)
-    {
-
+        dd('onMessage');
     }
 
     public function onClose(SwooleServer $server, $fd)
     {
-
+        dd('onClose');
     }
+
+    public function onRequest(SwooleRequest $request, SwooleResponse $response)
+    {
+    }
+
 
 
     public function createServer()
     {
-        $this->swooleServer = new SwooleServer($this->host, $this->port);
-        Input::info('http server访问:http://106.13.78.8:' . $this->port);
+        $this->swooleServer = new SwooleWebSocketServer($this->host, $this->port);
+        Input::info('webSocket server访问:wx://106.13.78.8:' . $this->port);
     }
 
     protected function initEvent()
