@@ -177,8 +177,8 @@ abstract class Server
             $this->inotify = new Inotify($this->app->getBasePath(), $this->watchEvent());
             $this->inotify->start();
         }
-        
-        $this->app->make('event')->trigger('start');
+
+        $this->app->make('event')->trigger('start', [$this]);
 
 //         go(function(){
 //             $cli = new \Swoole\Coroutine\Http\Client('106.13.78.8', 9500);
@@ -254,6 +254,16 @@ abstract class Server
     {
         $this->config = array_map($this->config, $config);
         return $this;
+    }
+
+    public function getPort()
+    {
+        return $this->port;
+    }
+
+    public function getHost()
+    {
+        return $this->host;
     }
 
     public function watchFile($watchFile)

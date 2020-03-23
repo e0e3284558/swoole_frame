@@ -3,11 +3,12 @@
 namespace SwoCloud;
 
 
-use Swoole\Http\Server as SwooleServer;
+use Swoole\Server as SwooleServer;
 use Swoole\Http\Request as SwooleRequest;
 use Swoole\Http\Response as SwooleResponse;
 use Swoole\WebSocket\Server as SwooleWebSocketServer;
 use SwoStar\Console\Input;
+use \Redis;
 
 /**
  * 1. 检测IM-server的存活状态
@@ -22,6 +23,21 @@ use SwoStar\Console\Input;
  */
 class Route extends Server
 {
+    protected $dispatcher = null;
+
+    protected $reids = null;
+
+    protected $serverKey = 'im_server';
+
+
+    public function onWorkerStart(SwooleServer $server, int $worker_id)
+    {
+        $this->redis = new Redis();
+        $this->redis->pconnect('127.0.0.1', 6379);
+        $this->redis->auth('bifei970827...');
+    }
+
+
     public function onOpen(SwooleServer $server, $request)
     {
         dd("onOpen");
@@ -29,7 +45,10 @@ class Route extends Server
 
     public function onMessage(SwooleServer $server, $frame)
     {
-        dd('onMessage');
+//        dd('onMessage');
+        $data = json_decode($frame->data, true);
+        $fd = $frame->fd;
+        $this->getDispatcher()->{$data['method']}($this, $server, ...[$fd, $data]);
     }
 
     public function onClose(SwooleServer $server, $fd)
@@ -40,7 +59,6 @@ class Route extends Server
     public function onRequest(SwooleRequest $request, SwooleResponse $response)
     {
     }
-
 
 
     public function createServer()
@@ -58,5 +76,24 @@ class Route extends Server
             'close' => 'onClose'
         ]);
     }
+
+    public function getDispatcher()
+    {
+        if (empty($this->dispatcher)) {
+            $this->dispatcher = new Dispatcher();
+        }
+        return $this->dispatcher;
+    }
+
+    public function getRedis()
+    {
+        return $this->redis;
+    }
+
+    public function getServerKey()
+    {
+        return $this->serverKey;
+    }
+
 
 }
