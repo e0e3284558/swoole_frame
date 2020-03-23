@@ -4,6 +4,7 @@ namespace SwoStar\Foundation;
 
 use SwoStar\Config\Config;
 use SwoStar\Container\Container;
+use SwoStar\Event\Event;
 use SwoStar\Index;
 use SwoStar\Message\Http\Request;
 use SwoStar\Routes\Route;
@@ -67,8 +68,33 @@ class Application extends Container
     public function init()
     {
         $this->bind('route', Route::getInstance()->registeRoute());
-//        dd(app('route')->getRoutes());
+        $this->bind('event', $this->registerEvent());
+
+        dd($this->make('event')->getEvents());
     }
+
+    /**
+     * 注册框架事件
+     *
+     * @return Event
+     */
+    public function registerEvent()
+    {
+        $event = new Event();
+        $files = scandir($this->getBasePath() . '/app/Listener/');
+        foreach ($files as $key => $file) {
+            if ($file === '.' || $file === '..' || $files === '.DS_Store') {
+                continue;
+            }
+            $class = 'App\\Listener\\' . explode('.', $file)[0];
+            if (class_exists($class)) {
+                $listener = new $class;
+                $event->register($listener->getName(), [$listener, 'handler']);
+            }
+        }
+        return $event;
+    }
+
 
     public function setBasePath($path)
     {

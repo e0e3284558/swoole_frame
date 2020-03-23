@@ -177,13 +177,15 @@ abstract class Server
             $this->inotify = new Inotify($this->app->getBasePath(), $this->watchEvent());
             $this->inotify->start();
         }
+        
+        $this->app->make('event')->trigger('start');
 
-         go(function(){
-             $cli = new \Swoole\Coroutine\Http\Client('106.13.78.8', 9500);
-             $ret = $cli->upgrade("/");
-             $cli->push('1');
-             $cli->close();
-         });
+//         go(function(){
+//             $cli = new \Swoole\Coroutine\Http\Client('106.13.78.8', 9500);
+//             $ret = $cli->upgrade("/");
+//             $cli->push('1');
+//             $cli->close();
+//         });
     }
 
     public function onManagerStart(SwooleServer $server)
