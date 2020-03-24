@@ -58,6 +58,19 @@ class Route extends Server
 
     public function onRequest(SwooleRequest $request, SwooleResponse $response)
     {
+        if ($request->server['request_uri'] == '/favicon.ico') {
+            $response->status(404);
+            $request->end('');
+            return null;
+        }
+
+        /**
+         *
+         * [
+         *      'method'=>'login',
+         * ]
+         */
+        $this->getDispatcher()->{$request->post['method']}($this, $request, $response);
     }
 
 

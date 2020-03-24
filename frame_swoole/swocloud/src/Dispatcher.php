@@ -3,6 +3,8 @@
 namespace SwoCloud;
 
 use Swoole\Server as SwooleServer;
+use Swoole\Http\Request;
+use Swoole\Http\Response;
 use \Redis;
 
 class Dispatcher
@@ -27,5 +29,16 @@ class Dispatcher
                 dd('im server 宕机 ，主动清空');
             }
         }, $redis, $server, $serverKey, $fd, $value);
+    }
+
+    /**
+     * 用户登录的方法
+     * @param Route $route
+     * @param Request $request
+     * @param Response $response
+     */
+    public function login(Route $route, Request $request, Response $response)
+    {
+        
     }
 }
