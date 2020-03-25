@@ -19,8 +19,8 @@ class StartListener extends Listener
             if ($cli->upgrade("/")) {
                 // 这是本机信息
                 $data = [
-                    'ip' => $server->getHost(),
-                    'port' => $server->getPort(),
+                    'ip' => '106.13.78.8',
+                    'port' => 9000,
                     'ServerName' => 'swostart_im1',
                     'method' => 'register',
                 ];

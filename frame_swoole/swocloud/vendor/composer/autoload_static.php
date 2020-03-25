@@ -17,6 +17,10 @@ class ComposerStaticInit8fa178439cedeee322de18fbf8bc1004
             'SwoStar\\' => 8,
             'SwoCloud\\' => 9,
         ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -27,6 +31,10 @@ class ComposerStaticInit8fa178439cedeee322de18fbf8bc1004
         'SwoCloud\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
     );
 

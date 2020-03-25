@@ -1,0 +1,25 @@
+{
+    "name": "bifei/swostar-frame",
+    "type": "library",
+    "authors": [
+        {
+            "name": "e0e3284558",
+            "email": "bifei0827@vip.qq.com"
+        }
+    ],
+    "require": {
+        "bifei/swostar": "dev-master"
+    },
+    "repositories": {
+        "bifei": {
+            "type": "path",
+            "url": "../swostar"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\":"database/"
+        }
+    }
+}

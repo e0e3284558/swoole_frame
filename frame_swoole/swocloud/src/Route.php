@@ -29,6 +29,8 @@ class Route extends Server
 
     protected $serverKey = 'im_server';
 
+    protected $arithmetic = 'round';
+
 
     public function onWorkerStart(SwooleServer $server, int $worker_id)
     {
@@ -63,6 +65,9 @@ class Route extends Server
             $request->end('');
             return null;
         }
+        // 解决跨域
+        $response->header('Access-Control-Allow-Origin','*');
+        $response->header('Access-Control-Allow-Methods','GET,POST');
 
         /**
          *
@@ -98,6 +103,9 @@ class Route extends Server
         return $this->dispatcher;
     }
 
+    /**
+     * @return Redis mixed
+     */
     public function getRedis()
     {
         return $this->redis;
@@ -106,6 +114,17 @@ class Route extends Server
     public function getServerKey()
     {
         return $this->serverKey;
+    }
+
+    public function getArithmetic()
+    {
+        return $this->arithmetic;
+    }
+
+    public function setArithmetic($arithmetic)
+    {
+        $this->arithmetic = $arithmetic;
+        return $this;
     }
 
 
