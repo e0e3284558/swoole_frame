@@ -58,11 +58,12 @@ class Application extends Container
             // 标识=>对象
             'index' => (new Index()),
             'httpRequest' => (new Request()),
-            'config' => (new Config())
+            'config'      => (new Config()),
         ];
         foreach ($binds as $key => $value) {
             $this->bind($key, $value);
         }
+
     }
 
     public function init()
@@ -88,7 +89,7 @@ class Application extends Container
             }
             $class = 'App\\Listener\\' . explode('.', $file)[0];
             if (class_exists($class)) {
-                $listener = new $class;
+                $listener = new $class($this);
                 $event->register($listener->getName(), [$listener, 'handler']);
             }
         }

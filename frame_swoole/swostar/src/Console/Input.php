@@ -1,18 +1,18 @@
 <?php
-
 namespace SwoStar\Console;
+
 class Input
 {
     public static function info($message, $description = null)
     {
-        $return = "=====>" . $description . 'start \n ';
-        if (is_array($message)) {
-            $return = $return . var_export($message, true);
+        echo "======>>> ".$description." start\n";
+        if (\is_array($message)) {
+            echo \var_export($message, true);
+        } else if (\is_string($message)) {
+            echo $message."\n";
         } else {
-            $return .= $message . "\n";
+            var_dump($message);
         }
-        $return .= '=====>' . $description . " end \n";
-        echo $return;
-
+        echo  "======>>> ".$description." end\n";
     }
 }

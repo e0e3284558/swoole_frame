@@ -4,6 +4,8 @@ namespace SwoStar\Server\WebSocket;
 
 use SwoStar\Console\Input;
 use SwoStar\Server\Http\HttpServer;
+use Swoole\Http\Request as SwooleRequest;
+use Swoole\Http\Response as SwooleResponse;
 use Swoole\WebSocket\Server as SwooleServer;
 
 class WebSocketServer extends HttpServer
@@ -17,12 +19,21 @@ class WebSocketServer extends HttpServer
 
     protected function initEvent()
     {
-        $this->setEvent('sub', [
+        $event = [
             'request' => 'onRequest',
             'open' => 'onOpen',
             'message' => 'onMessage',
             'close' => 'onClose'
-        ]);
+        ];
+        // 判断是否自定义握手的过程
+        ( ! $this->app->make('config')->get('server.ws.is_handshake'))?: $event['handshake'] = 'onHandShake';
+
+        $this->setEvent('sub', $event);
+    }
+
+    public function onHandShake(SwooleRequest $request, SwooleResponse $response)
+    {
+        $this->app->make('event')->trigger('ws.hand',[$this,$request,$response]);
     }
 
     public function onOpen(SwooleServer $server, $request)

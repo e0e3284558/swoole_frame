@@ -15,4 +15,19 @@ return [
             ],
         ],
     ],
+    'ws'=>[
+        'is_handshake'=>true
+    ],
+    'route'=>[
+        'server'=>[
+            'port'=>9600,
+            'host'=>'192.168.186.130'
+        ],
+        'jwt'=>[
+            'key'=>"swocloud",
+            'alg'=>[
+                'HS256'
+            ]
+        ]
+    ]
 ];

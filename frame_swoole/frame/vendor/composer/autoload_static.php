@@ -15,6 +15,10 @@ class ComposerStaticInit158724aa935d79d4bfc2f5ece691b0b6
         array (
             'SwoStar\\' => 8,
         ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
         'D' => 
         array (
             'Database\\' => 9,
@@ -29,6 +33,10 @@ class ComposerStaticInit158724aa935d79d4bfc2f5ece691b0b6
         'SwoStar\\' => 
         array (
             0 => __DIR__ . '/..' . '/bifei/swostar/src',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
         'Database\\' => 
         array (

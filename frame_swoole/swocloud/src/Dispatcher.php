@@ -18,7 +18,7 @@ class Dispatcher
         // 把服务端信息记录到redis
         $redis = $route->getRedis();
         $value = json_encode([
-            'ip'   => $data['ip'],
+            'ip' => $data['ip'],
             'port' => $data['port'],
         ]);
         $redis->sadd($serverKey, $value);
@@ -42,7 +42,7 @@ class Dispatcher
     public function login(Route $route, Request $request, Response $response)
     {
         // 获取im-server服务器
-        $imServer = json_decode($this->getIMServer($route),true);
+        $imServer = json_decode($this->getIMServer($route), true);
         dd($imServer, '这是获取的服务器信息');
 
         $url = $imServer['ip'] . ':' . $imServer['port'];
@@ -53,7 +53,7 @@ class Dispatcher
         dd($token, "生成的token");
         $response->end(json_encode([
             'token' => $token,
-            'url'=>$url
+            'url' => $url
         ]));
     }
 
@@ -71,6 +71,7 @@ class Dispatcher
             "exp" => $time + (60 * 60 * 24),
             "data" => [
                 'uid' => $uid,
+                'name' => 'bifei'.$uid,
                 'url' => $url
             ]
         );

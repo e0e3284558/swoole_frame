@@ -29,6 +29,9 @@ abstract class Server
     protected $host = null;
 
     protected $watchFile = false;
+
+    protected $redis;
+
     // 记录系统pid的信息
     protected $pidFile = '/runtime/swostar.pid';
 
@@ -207,6 +210,10 @@ abstract class Server
             'id' => $worker_id,
             'pid' => $server->worker_id
         ];
+        $this->redis = new \Redis();
+        $this->redis->pconnect("127.0.0.1", 6379);
+        $this->redis->auth('bifei970827...');
+
     }
 
     public function onWorkerStop(SwooleServer $server, int $worker_id)
@@ -267,5 +274,10 @@ abstract class Server
     public function watchFile($watchFile)
     {
         $this->watchFile = $watchFile;
+    }
+
+    public function getRedis()
+    {
+        return $this->redis;
     }
 }

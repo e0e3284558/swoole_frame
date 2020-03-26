@@ -34,8 +34,8 @@
     // var webSocket  = new  WebSocket("ws://127.0.0.1:9000");
     // var webSocket  = new  WebSocket("ws://106.13.78.8:9501");
     console.log(`ws://${data.url}/index`);
-    // var webSocket = new WebSocket(`ws://${data.url}/index`);
-    var webSocket = new WebSocket(`ws://106.13.78.8:9001/index`);
+    var webSocket = new WebSocket(`ws://${data.url}/index`,[data.token]);
+    // var webSocket = new WebSocket(`ws://106.13.78.8:9001/index`);
 
     webSocket.onerror = function (event) {
         onError(event);
