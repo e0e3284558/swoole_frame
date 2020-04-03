@@ -66,8 +66,8 @@ class Route extends Server
             return null;
         }
         // 解决跨域
-        $response->header('Access-Control-Allow-Origin','*');
-        $response->header('Access-Control-Allow-Methods','GET,POST');
+        $response->header('Access-Control-Allow-Origin', '*');
+        $response->header('Access-Control-Allow-Methods', 'GET,POST');
 
         /**
          *
@@ -101,6 +101,15 @@ class Route extends Server
             $this->dispatcher = new Dispatcher();
         }
         return $this->dispatcher;
+    }
+
+    /**
+     * 获取所有服务器的信息，可用可连接的
+     * @return array
+     */
+    public function getIMServer()
+    {
+        return $this->getRedis()->smembers($this->getServerKey());
     }
 
     /**

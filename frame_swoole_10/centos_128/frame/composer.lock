@@ -1,0 +1,44 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "46b81baca69898a8e4452bfb42f46499",
+    "packages": [
+        {
+            "name": "shineyork/swostar",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../swostar",
+                "reference": "13f85d5730209f0333b68ad9e2eb07865cc69a37"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SwoStar\\": "./src/"
+                },
+                "files": [
+                    "src/Supper/Helper.php"
+                ]
+            },
+            "authors": [
+                {
+                    "name": "shineyork",
+                    "email": "shineyork@sixstaredu.com"
+                }
+            ]
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "shineyork/swostar": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

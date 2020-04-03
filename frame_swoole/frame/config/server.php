@@ -1,31 +1,38 @@
 <?php
 return [
-    'http' => [
-        'host' => '0.0.0.0',
-        'port' => 9000,
-        'swoole' => [
-
-        ],
-        'tcpable' => 1,//1为开启，0为关闭
-        'rpc' => [
-            'host' => '127.0.0.1',
-            'port' => 8000,
-            'swoole' => [
-                'worker_num' => 1
-            ],
+    "http" => [
+        "host" => "0.0.0.0",
+        "port" => 9000,
+        "swoole" => [
+            "task_worker_num" => 0,
         ],
     ],
     'ws'=>[
-        'is_handshake'=>true
-    ],
-    'route'=>[
-        'server'=>[
-            'port'=>9600,
-            'host'=>'192.168.186.130'
+        'host' => '0.0.0.0',                 //服务监听ip
+        'port' => 9800,                      //监听端口
+        'enable_http' => true,               //是否开启http服务
+        'swoole' => [                        //swoole配置
+            "task_worker_num" => 0,
+            // 'daemonize' => 0,             //是否开启守护进程
         ],
-        'jwt'=>[
-            'key'=>"swocloud",
-            'alg'=>[
+        'is_handshake' => true,
+    ],
+    "rpc" => [
+        'tcpable'=>1,                        //是否开启tcp监听
+        "host" => "127.0.0.1",
+        "port" => 9502,
+        "swoole_setting" => [
+            "worker_num" => "2"
+        ]
+    ],
+    'route' => [
+        'server' => [
+            'host' => '106.13.78.8',
+            'port' => 9500,
+        ],
+        'jwt' => [
+            'key' => 'swocloud',
+            'alg' => [
                 'HS256'
             ]
         ]

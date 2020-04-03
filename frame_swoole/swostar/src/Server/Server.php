@@ -80,9 +80,10 @@ abstract class Server
         "ext" => []
     ];
 
-    public function __construct(Application $app)
+    public function __construct(Application $app, $flag = 'http')
     {
         $this->app = $app;
+        $this->flag = $flag;
 
         $this->initSetting();
         // 1. 创建 swoole server
@@ -120,14 +121,16 @@ abstract class Server
         $this->swooleServer->start();
     }
 
-    public function initSetting()
-    {
-        $config = app('config');
-        $this->port = $config->get('server.http.port');
-        $this->host = $config->get('server.http.host');
-        var_dump('初始化端口', $this->host, $this->port);
+//    public function initSetting()
+//    {
+//        $config = app('config');
+//        $this->port = $config->get('server.http.port');
+//        $this->host = $config->get('server.http.host');
+//        var_dump('初始化端口', $this->host, $this->port);
+//
+//    }
 
-    }
+    protected abstract function initSetting();
 
     /**
      * 设置swoole的回调事件
@@ -170,23 +173,15 @@ abstract class Server
         $this->pidMap['masterPid'] = $server->master_pid;
         $this->pidMap['managerPid'] = $server->manager_pid;
 
-        // 保存PID到文件
-//        $pidStr = sprintf('%s%s', $server->master_pid, $server->manager_pid);
-//        file_put_contents(app()->getBasePath() . $this->pidFile, $pidStr);
-//        var_dump($this->app->getBasePath());
+        // 保存PID到文件里面
+        $pidStr = \sprintf('%s,%s', $server->master_pid, $server->manager_pid);
+        \file_put_contents(app()->getBasePath() . $this->pidFile, $pidStr);
         if ($this->watchFile) {
             $this->inotify = new Inotify($this->app->getBasePath(), $this->watchEvent());
             $this->inotify->start();
         }
-
-        $this->app->make('event')->trigger('start', [$this]);
-
-//         go(function(){
-//             $cli = new \Swoole\Coroutine\Http\Client('106.13.78.8', 9500);
-//             $ret = $cli->upgrade("/");
-//             $cli->push('1');
-//             $cli->close();
-//         });
+        // 设置启动事件
+        $this->app->make('event')->trigger('start', [$this, $server]);
     }
 
     public function onManagerStart(SwooleServer $server)

@@ -24,9 +24,10 @@ class Connections
     /**
      * 记录用户链接
      */
-    public static function init($fd, $path)
+    public static function init($fd, $request)
     {
-        self::$connections[$fd]['path'] = $path;
+        self::$connections[$fd]['path'] = $request->server['path_info'];
+        self::$connections[$fd]['request'] = $request;
     }
 
     public static function get($fd)

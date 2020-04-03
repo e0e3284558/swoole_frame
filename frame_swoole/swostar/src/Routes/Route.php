@@ -88,9 +88,6 @@ class Route
         // 3. 判断请求的uri匹配相应路由，返回action
         // 4. 判断控制器还是闭包，分别执行
         $action = null;
-        dd($this->method);
-        dd($this->routes);
-        dd($this->routes[$this->method]);
         foreach ($this->routes[$this->flag][$this->method] as $uri => $value) {
             $uri = ($uri && substr($uri, 0, 1) != '/') ? '/' . $uri : $uri;
             dd($uri, "这是处理的url");

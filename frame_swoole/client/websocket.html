@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>websocket</title>
+  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+</head>
+
+<body>
+  <input id="msg" value="" />
+  <input type="submit" value="send" onclick="start()">
+  <input type="submit" value="close" onclick="close()">
+  <input id="clientId" value="" />
+  <div id="message"></div>
+  <script>
+    // jquery的弹窗输入
+    let id = prompt('输入id用于测试');
+    id = id + '_' + getFormatDate();
+    console.log(id);
+    let data;
+    $.ajaxSettings.async = false;
+    $.post('http://106.13.78.8:9500', {
+      method: 'login',
+      id: id
+    }, function(result) {
+      data = result;
+    }, "json");
+    console.log(data);
+    /**
+     *0：未连接
+     *1：连接成功，可通讯
+     *2：正在关闭
+     *3：连接已关闭或无法打开
+     */
+    //创建一个webSocket 实例
+    var webSocket = new WebSocket('ws://' + data.url + '/index', [data.token]);
+
+    webSocket.onerror = function(event) {
+        document.getElementById("message").innerHTML = "<p>close</p>";
+        console.log("error" + event.data);
+    };
+
+    // 打开websocket
+    webSocket.onopen = function(event) {
+        console.log("open:" + sockState());
+
+        webSocket.send(`{"method":"serverBroadcast","msg":"大家好我是${id}"}`);
+
+        document.getElementById("message").innerHTML = "<p>Connect to Service</p>";
+    };
+
+    //监听消息
+    webSocket.onmessage = function(event) {
+        console.log("onMessage");
+
+        var data = eval('(' + event.data + ')');
+
+        console.log(data);
+        document.getElementById("message").innerHTML += "<p>response:" + data.msg + "</p>"
+    };
+
+
+    webSocket.onclose = function(event) {
+        document.getElementById("message").innerHTML = "<p>close</p>";
+        console.log("close:" + sockState());
+        webSocket.close();
+    }
+    function sockState() {
+        var status = ['未连接', '连接成功，可通讯', '正在关闭', '连接已关闭或无法打开'];
+        return status[webSocket.readyState];
+    }
+
+    function start(event) {
+        console.log(webSocket);
+
+        var msg    = document.getElementById('msg').value;
+        var clientId = document.getElementById('clientId').value;
+
+        document.getElementById('msg').value = '';
+        document.getElementById('clientId').value = '';
+
+        console.log("send:" + sockState());
+        console.log("msg=" + msg);
+
+        let data ;
+        if (clientId == "") {
+            // 为广播
+            // webSocket.send();
+            data = `{"method":"serverBroadcast","msg":"${msg}"}`;
+        } else {
+            // 为私了
+            data = `{"method":"privateChat","msg":"${msg}","clientId":"${clientId}"}`
+        }
+        console.log(data);
+        webSocket.send(data);
+        document.getElementById("message").innerHTML += "<p>request" + msg + "</p>"
+    };
+
+    function getFormatDate() {
+        var nowDate = new Date();
+        var year = nowDate.getFullYear();
+        var month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1;
+        var date = nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate.getDate();
+        var hour = nowDate.getHours() < 10 ? "0" + nowDate.getHours() : nowDate.getHours();
+        var minute = nowDate.getMinutes() < 10 ? "0" + nowDate.getMinutes() : nowDate.getMinutes();
+        var second = nowDate.getSeconds() < 10 ? "0" + nowDate.getSeconds() : nowDate.getSeconds();
+        return year + "" + month + "" + date + "" + hour + "" + minute + "" + second;
+    }
+
+    function close(event) {
+        webSocket.close();
+    }
+  </script>
+</body>
+
+</html>

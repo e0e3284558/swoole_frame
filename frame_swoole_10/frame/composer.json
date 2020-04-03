@@ -1,0 +1,29 @@
+{
+    "name": "shineyork/swostar-frame",
+    "type": "library",
+    "authors": [
+        {
+            "name": "shineyork",
+            "email": "shineyork@sixstaredu.com"
+        }
+    ],
+    "require": {
+        "shineyork/swostar": "dev-master",
+        "firebase/php-jwt": "^5.1"
+    },
+    "repositories": {
+        "shineyork": {
+            "type": "path",
+            "url": "../swostar"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\": "database/"
+        },
+        "files":[
+            "vendor/shineyork/swostar/src/Supper/Helper.php"
+        ]
+    }
+}

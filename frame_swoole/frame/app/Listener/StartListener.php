@@ -9,20 +9,20 @@ class StartListener extends Listener
 {
     protected $name = 'start';
 
-    public function handler(Server $server = null)
+    public function handler($swoStarServer = null, $swooleServer  = null)
     {
         dd('this is StartListener handler', 'StartListener');
-
-        go(function () use ($server) {
-            $cli = new \Swoole\Coroutine\Http\Client('106.13.78.8', 9500);
+        $config = $this->app->make('config');
+        go(function () use ($swoStarServer,$config) {
+            $cli = new \Swoole\Coroutine\Http\Client($config->get('server.route.server.host'), $config->get('server.route.server.port'));
             // 升级为webSocket
             if ($cli->upgrade("/")) {
                 // 这是本机信息
-                $data = [
-                    'ip' => '106.13.78.8',
-                    'port' => 9000,
-                    'ServerName' => 'swostart_im1',
-                    'method' => 'register',
+                $data=[
+                    'method'     =>'register', //方法
+                    'serviceName'=>'IM1',
+                    'ip'         => '106.13.78.8',
+                    'port'       => $swoStarServer->getPort()
                 ];
                 $cli->push(json_encode($data));
                 // 定时器保证长连接

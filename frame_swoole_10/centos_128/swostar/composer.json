@@ -1,0 +1,19 @@
+{
+    "name": "shineyork/swostar",
+    "type": "library",
+    "authors": [
+        {
+            "name": "shineyork",
+            "email": "shineyork@sixstaredu.com"
+        }
+    ],
+    "require": {},
+    "autoload":{
+        "psr-4":{
+            "SwoStar\\":"./src/"
+        },
+        "files":[
+            "src/Supper/Helper.php"
+        ]
+    }
+}

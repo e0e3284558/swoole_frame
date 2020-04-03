@@ -1,0 +1,28 @@
+[
+    {
+        "name": "shineyork/swostar",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "dist": {
+            "type": "path",
+            "url": "../swostar",
+            "reference": "13f85d5730209f0333b68ad9e2eb07865cc69a37"
+        },
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "SwoStar\\": "./src/"
+            },
+            "files": [
+                "src/Supper/Helper.php"
+            ]
+        },
+        "authors": [
+            {
+                "name": "shineyork",
+                "email": "shineyork@sixstaredu.com"
+            }
+        ]
+    }
+]

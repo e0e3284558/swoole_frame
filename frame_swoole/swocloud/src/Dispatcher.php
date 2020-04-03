@@ -34,6 +34,19 @@ class Dispatcher
     }
 
     /**
+     * route向服务器广播
+     * @param Route $route
+     * @param SwooleServer $server
+     * @param $fd
+     * @param $data
+     */
+    public function routeBroadcast(Route $route, SwooleServer $server, $fd, $data)
+    {
+//        dd($data,'接收到 im-server client 的 msg');
+        // 获取到所有的服务器
+
+    }
+    /**
      * 用户登录的方法
      * @param Route $route
      * @param Request $request
@@ -43,14 +56,14 @@ class Dispatcher
     {
         // 获取im-server服务器
         $imServer = json_decode($this->getIMServer($route), true);
-        dd($imServer, '这是获取的服务器信息');
+//        dd($imServer, '这是获取的服务器信息');
 
         $url = $imServer['ip'] . ':' . $imServer['port'];
         // 去数据库中进行用户密码和账户验证
 
         $uid = $request->post['id'];
         $token = $this->getToken($uid, $url);
-        dd($token, "生成的token");
+//        dd($token, "生成的token");
         $response->end(json_encode([
             'token' => $token,
             'url' => $url

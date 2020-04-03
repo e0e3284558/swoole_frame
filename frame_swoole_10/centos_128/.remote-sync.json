@@ -1,0 +1,19 @@
+{
+  "logger": {
+    "title": "Remote Sync"
+  },
+  "uploadOnSave": true,
+  "useAtomicWrites": true,
+  "deleteLocal": true,
+  "hostname": "192.168.186.128",
+  "port": "22",
+  "target": "/www/wwwroot/swoole_1911",
+  "ignore": [
+    ".remote-sync.json",
+    ".git/**"
+  ],
+  "username": "root",
+  "password": "0000",
+  "watch": [],
+  "transport": "scp"
+}

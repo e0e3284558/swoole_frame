@@ -71,7 +71,7 @@ class Application extends Container
         $this->bind('route', Route::getInstance()->registeRoute());
         $this->bind('event', $this->registerEvent());
 
-        dd($this->make('event')->getEvents());
+//        dd($this->make('event')->getEvents());
     }
 
     /**
