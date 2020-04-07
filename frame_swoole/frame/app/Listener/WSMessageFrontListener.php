@@ -3,6 +3,7 @@
 namespace App\Listener;
 
 use SwoStar\Event\Listener;
+use SwoStar\Server\WebSocket\Connections;
 use SwoStar\Server\WebSocket\WebSocketServer;
 use Swoole\Coroutine\Http\Client;
 
@@ -57,5 +58,46 @@ class WSMessageFrontListener extends Listener
     {
         dd($data, 'server 中的 routeBroadcast');
         $swoStarServer->sendAll(json_encode($data['data']));
+    }
+
+    /**
+     * 接收客户端私聊的信息
+     * @param WebSocketServer|null $swoStarServer
+     * @param null $swooleServer
+     * @param $data
+     * @param $fd
+     */
+    protected function privateChat(WebSocketServer $swoStarServer = null, $swooleServer = null, $data, $fd)
+    {
+        // 1.获取私聊的id
+        $clientId = $data['clientId'];
+        // 2.从redis获取对应的服务器信息
+        $clientIMServerInfoJson = $swoStarServer->getRedis()->hGet($this->app->make('config')->get('server.route.jwt.key'), $clientId);
+        $clientIMServerInfo = json_decode($clientIMServerInfoJson, true);
+        dd($clientIMServerInfo, '接收方的服务器信息');
+        // 指定发送
+        $request = Connections::get($fd)['request'];
+        $token = $request->header['sec-websocket-protocol'];
+        // $url=0.0.0.0:9000
+        $clientIMServerUrl = explode(":", $clientIMServerInfo['serverUrl']);
+        $swoStarServer->send($clientIMServerUrl[0], $clientIMServerUrl[1], [
+            'method' => 'forwarding',
+            'msg' => $data['msg'],
+            'fd' => $clientIMServerInfo['fd']
+        ], [
+            'sec-websocket-protocol' => $token
+        ]);
+    }
+
+    /**
+     * 转发私聊信息
+     * @param WebSocketServer|null $swoStarServer
+     * @param null $swooleServer
+     * @param $data
+     * @param $fd
+     */
+    protected function forwarding(WebSocketServer $swoStarServer, $swooleServer ,$data, $fd)
+    {
+        $swooleServer->push($data['fd'], json_encode(['msg' => $data['msg']]));
     }
 }

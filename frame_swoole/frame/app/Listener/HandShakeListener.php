@@ -57,7 +57,8 @@ class HandShakeListener extends Listener
         $url = $userInfo->serverUrl;
         $server->getRedis()->hset($key, $userInfo->uid, json_encode([
             'fd' => $fd,
-            'name' => $userInfo->name
+            'name' => $userInfo->name,
+            'serverUrl'=>$userInfo->url
         ]));
         return true;
 //        }catch (\Exception $e){

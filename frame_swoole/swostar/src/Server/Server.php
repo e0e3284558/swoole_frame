@@ -7,6 +7,8 @@ use SwoStar\RPC\Rpc;
 use SwoStar\Supper\Inotify;
 use Swoole\Server as SwooleServer;
 use SwoStar\Foundation\Application;
+use Swoole\Coroutine\Http\Client;
+
 
 /**
  * 所有服务的父类， 写一写公共的操作
@@ -94,6 +96,25 @@ abstract class Server
         // 4. 设置swoole的回调函数
         $this->setSwooleEvent();
     }
+
+
+    /**
+     * 指定为某一个链接的服务器发送信息
+     * @param $ip
+     * @param $port
+     * @param $data
+     * @param null $header
+     */
+    public function send($ip, $port, $data, $header = null)
+    {
+        $cli = new Client($ip, $port);
+        empty($header)?:$cli->setHeaders($header);
+
+        if ($cli->upgrade('/')){
+            $cli->push(json_encode($data));
+        }
+    }
+
 
     /**
      * 创建服务

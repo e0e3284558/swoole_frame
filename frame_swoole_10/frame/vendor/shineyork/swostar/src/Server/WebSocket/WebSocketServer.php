@@ -15,6 +15,7 @@ class WebSocketServer extends HttpServer
 
         Input::info('WebSocket server 访问 : ws://192.168.186.130:'.$this->port );
     }
+
     protected function initSetting()
     {
         $config = app('config');

@@ -79,23 +79,6 @@ class Route extends Server
         $this->getDispatcher()->{$request->post['method']}($this, $request, $response);
     }
 
-    /**
-     * 指定为某一个链接的服务器发送信息
-     * @param $ip
-     * @param $port
-     * @param $data
-     */
-    public function send($ip, $port, $data, $header = null)
-    {
-        $cli = new Client($ip, $port);
-        empty($header)?:$cli->setHeaders($header);
-
-        if ($cli->upgrade('/')){
-            $cli->push(json_encode($data));
-        }
-    }
-
-
     public function createServer()
     {
         $this->swooleServer = new SwooleWebSocketServer($this->host, $this->port);
