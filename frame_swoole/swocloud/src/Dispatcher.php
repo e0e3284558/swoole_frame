@@ -42,10 +42,25 @@ class Dispatcher
      */
     public function routeBroadcast(Route $route, SwooleServer $server, $fd, $data)
     {
-//        dd($data,'接收到 im-server client 的 msg');
+        dd($data,'接收到 im-server client 的 msg');
         // 获取到所有的服务器
+        $imServers = $route->getIMServers();
 
+        $token = $this->getToken(0, $route->getHost() . ':' . $route->getPort());
+        $header = ['sec-websocket-protocol'=>$token];
+        foreach ($imServers as $key => $imServer) {
+            $imInfo = json_decode($imServer, true);
+            // 转发给其他的服务器
+            $route->send($imInfo['ip'], $imInfo['port'], [
+                'method'=>'routeBroadcast',
+                'data' => [
+                    'msg' => $data['msg'],
+                ]
+            ],$header);
+        }
     }
+
+
     /**
      * 用户登录的方法
      * @param Route $route
@@ -84,7 +99,7 @@ class Dispatcher
             "exp" => $time + (60 * 60 * 24),
             "data" => [
                 'uid' => $uid,
-                'name' => 'bifei'.$uid,
+                'name' => 'bifei' . $uid,
                 'url' => $url
             ]
         );
@@ -98,9 +113,9 @@ class Dispatcher
     public function getIMServer(Route $route)
     {
         // 所有的服务信息
-        $imServer = $route->getRedis()->smembers($route->getServerKey());
-        if (!empty($imServer)) {
-            return Arithmetic::{$route->getArithmetic()}($imServer);
+        $imServers = $route->getIMServers();
+        if (!empty($imServers)) {
+            return Arithmetic::{$route->getArithmetic()}($imServers);
         }
         return false;
     }

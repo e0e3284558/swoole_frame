@@ -8,6 +8,7 @@ use Swoole\Http\Request as SwooleRequest;
 use Swoole\Http\Response as SwooleResponse;
 use Swoole\WebSocket\Server as SwooleWebSocketServer;
 use SwoStar\Console\Input;
+use Swoole\Coroutine\Http\Client;
 use \Redis;
 
 /**
@@ -78,6 +79,22 @@ class Route extends Server
         $this->getDispatcher()->{$request->post['method']}($this, $request, $response);
     }
 
+    /**
+     * 指定为某一个链接的服务器发送信息
+     * @param $ip
+     * @param $port
+     * @param $data
+     */
+    public function send($ip, $port, $data, $header = null)
+    {
+        $cli = new Client($ip, $port);
+        empty($header)?:$cli->setHeaders($header);
+
+        if ($cli->upgrade('/')){
+            $cli->push(json_encode($data));
+        }
+    }
+
 
     public function createServer()
     {
@@ -107,7 +124,7 @@ class Route extends Server
      * 获取所有服务器的信息，可用可连接的
      * @return array
      */
-    public function getIMServer()
+    public function getIMServers()
     {
         return $this->getRedis()->smembers($this->getServerKey());
     }

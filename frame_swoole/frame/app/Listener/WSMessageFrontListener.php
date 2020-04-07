@@ -40,8 +40,22 @@ class WSMessageFrontListener extends Listener
         if ($cli->upgrade('/')) {
             $cli->push(json_encode([
                 'method' => 'routeBroadcast',
-                'msg' => $data['msg'],
+                'msg' => $data['msg']
             ]));
         }
+    }
+
+    /**
+     * 接收Route服务器的广播信息
+     *
+     * @param WebSocketServer|null $swoStarServer
+     * @param null $swooleServer
+     * @param $data
+     * @param $fd
+     */
+    protected function routeBroadcast(WebSocketServer $swoStarServer = null, $swooleServer = null, $data, $fd)
+    {
+        dd($data, 'server 中的 routeBroadcast');
+        $swoStarServer->sendAll(json_encode($data['data']));
     }
 }

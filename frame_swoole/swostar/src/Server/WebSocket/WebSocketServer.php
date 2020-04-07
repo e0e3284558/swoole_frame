@@ -26,16 +26,16 @@ class WebSocketServer extends HttpServer
             'close' => 'onClose'
         ];
         // 判断是否自定义握手的过程
-        ( ! $this->app->make('config')->get('server.ws.is_handshake'))?: $event['handshake'] = 'onHandShake';
+        (!$this->app->make('config')->get('server.ws.is_handshake')) ?: $event['handshake'] = 'onHandShake';
 
         $this->setEvent('sub', $event);
     }
 
     public function onHandShake(SwooleRequest $request, SwooleResponse $response)
     {
-        $this->app->make('event')->trigger('ws.hand',[$this,$request,$response]);
+        $this->app->make('event')->trigger('ws.hand', [$this, $request, $response]);
         // 因为设置了onHandShake回调函数，就不会触发onOpen
-        $this->onOpen($this->swooleServer,$request);
+        $this->onOpen($this->swooleServer, $request);
     }
 
 //    protected function initSetting()
@@ -45,7 +45,7 @@ class WebSocketServer extends HttpServer
 //        $this->host = $config->get('server.ws.host');
 //        $this->config = $config->get('server.ws.swoole');
 //    }
- 
+
     public function onOpen(SwooleServer $server, $request)
     {
         // 需要获取用户访问的地址
@@ -59,11 +59,12 @@ class WebSocketServer extends HttpServer
     {
         $path = (Connections::get($frame->fd))['path'];
         // 消息回复的事件
-        $this->app->make('event')->trigger('ws.message.front',[$this,$server,$frame]);
+        $this->app->make('event')->trigger('ws.message.front', [$this, $server, $frame]);
 
         // 消息的业务流程
         echo "接收到:{$frame->fd}:{$frame->data},操作码:{$frame->opcode},完成:{$frame->finish}\n";
         $return = app('route')->setFlag('WebSocket')->setMethod('message')->match($path, [$server, $frame]);
+
     }
 
     public function onClose($ser, $fd)
@@ -72,7 +73,22 @@ class WebSocketServer extends HttpServer
 
         $path = (Connections::get($fd))['path'];
         $return = app('route')->setFlag('WebSocket')->setMethod('close')->match($path, [$ser, $fd]);
-        $this->app->make('event')->trigger('ws.close',[$this,$ser,$fd]);
+
+        $this->app->make('event')->trigger('ws.close', [$this, $ser, $fd]);
         Connections::del($fd);
+    }
+
+    /**
+     * 针对连接当前服务进行群发
+     * @param $msg
+     */
+    public function sendAll($msg)
+    {
+        dd('群发');
+        foreach ($this->swooleServer->connections as $key => $fd) {
+            if ($this->swooleServer->exists($fd)) {
+                $this->swooleServer->push($fd, $msg);
+            }
+        }
     }
 }

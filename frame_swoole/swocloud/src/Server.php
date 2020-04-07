@@ -177,4 +177,20 @@ abstract class Server
     {
         $this->watchFile = $watchFile;
     }
+
+    /**
+     * @return int
+     */
+    public function getPort()
+    {
+        return $this->port;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHost()
+    {
+        return $this->host;
+    }
 }

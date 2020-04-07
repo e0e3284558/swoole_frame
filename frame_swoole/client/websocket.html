@@ -54,7 +54,7 @@
     //监听消息
     webSocket.onmessage = function(event) {
         console.log("onMessage");
-
+        console.log( event.data);
         var data = eval('(' + event.data + ')');
 
         console.log(data);
