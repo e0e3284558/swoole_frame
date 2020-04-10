@@ -57,6 +57,11 @@ class WSMessageFrontListener extends Listener
     protected function routeBroadcast(WebSocketServer $swoStarServer = null, $swooleServer = null, $data, $fd)
     {
         dd($data, 'server 中的 routeBroadcast');
+        $dataAck=[
+            'method'=>'ack',
+            'msg_id'=>$data['msg_id']
+        ];
+        $swooleServer->push($fd,json_encode($dataAck));
         $swoStarServer->sendAll(json_encode($data['data']));
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace SwoCloud;
+namespace SwoCloud\Server;
 
 
 use Swoole\Server as SwooleServer;
@@ -77,6 +77,32 @@ class Route extends Server
          * ]
          */
         $this->getDispatcher()->{$request->post['method']}($this, $request, $response);
+    }
+
+    /**
+     * 指定为某一个链接的服务器发送信息
+     * @param $ip
+     * @param $port
+     * @param $data
+     * @param null $header
+     */
+    public function send($ip, $port, $data, $header = null)
+    {
+        dd('发送');
+        // 携带任务id
+        $unipid = session_create_id();
+        $data['msg_id'] = $unipid;
+
+        $cli = new Client($ip, $port);
+
+        empty($header)?:$cli->setHeaders($header);
+
+        if ($cli->upgrade('/')) {
+            $cli->push(\json_encode($data));
+        }
+
+        // 发送成功之后调用 是否确认接收
+        $this->confirmGo($unipid, $data, $cli);
     }
 
     public function createServer()

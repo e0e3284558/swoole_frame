@@ -1,6 +1,6 @@
 <?php
 
-namespace SwoCloud;
+namespace SwoCloud\Server;
 
 use Firebase\JWT\JWT;
 use Swoole\Server as SwooleServer;
@@ -58,6 +58,11 @@ class Dispatcher
                 ]
             ],$header);
         }
+    }
+
+    public function ack($value='')
+    {
+
     }
 
 

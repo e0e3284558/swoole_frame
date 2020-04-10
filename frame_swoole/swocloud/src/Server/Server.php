@@ -1,9 +1,10 @@
 <?php
 
-namespace SwoCloud;
+namespace SwoCloud\Server;
 
 use Swoole\Server as SwooleServer;
 use Swoole\Coroutine\Http\Client;
+use SwoCloud\Server\Traits\AckTraits;
 
 
 /**
@@ -11,6 +12,7 @@ use Swoole\Coroutine\Http\Client;
  */
 abstract class Server
 {
+    use AckTraits;
     // 属性
     /**
      * [protected description]
@@ -69,22 +71,23 @@ abstract class Server
         $this->setSwooleEvent();
     }
 
-    /**
-     * 指定为某一个链接的服务器发送信息
-     * @param $ip
-     * @param $port
-     * @param $data
-     * @param null $header
-     */
-    public function send($ip, $port, $data, $header = null)
-    {
-        $cli = new Client($ip, $port);
-        empty($header)?:$cli->setHeaders($header);
+//    /**
+//     * 指定为某一个链接的服务器发送信息
+//     * @param $ip
+//     * @param $port
+//     * @param $data
+//     * @param null $header
+//     */
+//    public function send($ip, $port, $data, $header = null)
+//    {
+//        $cli = new Client($ip, $port);
+//        empty($header)?:$cli->setHeaders($header);
+//
+//        if ($cli->upgrade('/')){
+//            $cli->push(json_encode($data));
+//        }
+//    }
 
-        if ($cli->upgrade('/')){
-            $cli->push(json_encode($data));
-        }
-    }
     /**
      * 创建服务
      */
@@ -99,6 +102,8 @@ abstract class Server
 
     public function start()
     {
+        // 启动共享内存
+        $this->createTable();
         // 2. 设置配置信息
         $this->swooleServer->set($this->config);
         // 5. 启动
