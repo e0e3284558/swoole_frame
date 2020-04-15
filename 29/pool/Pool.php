@@ -32,11 +32,15 @@ class Pool
 
     protected $count = 0;
 
+    // 允许空闲时间
+    protected $idleTime = 10;
+
     protected static $instance = null;
 
     private function __construct()
     {
         $this->init();
+        $this->gc();
     }
 
     /**
@@ -65,6 +69,15 @@ class Pool
         }
     }
 
+    public function call($conn, $method, $sql)
+    {
+        try {
+            return $conn['db']->{$method}($sql);
+        } catch (Exception $exception) {
+
+        }
+    }
+
     public function getConnection()
     {
         $connection = null;
@@ -73,20 +86,20 @@ class Pool
             // 没有链接需要创建
             if ($this->count < $this->maxConnection) {
                 // 判断是否超过最大的链接个数
+                $this->count++;
                 $connection = $this->createConnection();
                 if ($connection) {
-                    $this->channel->push($connection);
-                    $this->count++;
+//                    $this->channel->push($connection);
+//                    $this->count--;
                 }
             } else {
                 var_dump('等待获取链接');
-                $connection = $this->channel->pop($this->timeout);
+//                $connection = $this->channel->pop($this->timeout);
             }
-        }else{
+        } else {
             // 表示还有空余的链接
-            $connection = $this->channel->pop($this->timeout);
+            return $this->channel->pop($this->timeout);
         }
-        return $connection;
     }
 
     /**
@@ -95,7 +108,41 @@ class Pool
      */
     public function freeConnection($connection)
     {
+        $connection['last_used_time'] = time();
         $this->channel->push($connection);
+    }
+
+    /**
+     * 回收空闲的连接
+     */
+    protected function gc()
+    {
+        swoole_timer_tick(2000, function () {
+            // 记录可用的连接
+            $conns = [];
+            while (true) {
+                if (!$this->channel->isEmpty() && $this->count > $this->minConnection) {
+                    $connection = $this->channel->pop();
+                    if (empty($connection)) {
+                        continue;
+                    }
+                    if (time()->$connection['last_used_time'] > $this->idleTime) {
+                        $connection['db']=null;
+                        $this->count--;
+                        echo "回收成功 \n";
+                    } else {
+                        array_push($conns, $connection);
+                    }
+                } else {
+                    break;
+                }
+            }
+            foreach ($conns as $key => $value) {
+                $this->channel->push($value);
+            }
+            echo "当前连接数是多少{$this->count}\n";
+
+        });
     }
 
     /**
@@ -106,7 +153,10 @@ class Pool
     {
         try {
             $pdo = new PDO('mysql:host=localhost;dbname=swoole', 'root', 'bfccm@db123');
-            return $pdo;
+            return [
+                'last_used_time' => time(),
+                'db' => $pdo,
+            ];
         } catch (Exception $e) {
             return false;
         }
